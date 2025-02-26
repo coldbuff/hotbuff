@@ -1,0 +1,611 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    padding-top: 90px; /* 헤더 높이 + 여백 */
+}
+
+/* 헤더 스타일 */
+.header {
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+}
+
+.header-content h1 {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+    text-align: center;
+}
+
+.sidebar-toggle {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    color: #333;
+    transition: transform 0.3s;
+    z-index: 2;
+}
+
+.sidebar-toggle:hover {
+    transform: scale(1.1);
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    z-index: 2;
+}
+
+.current-date {
+    font-size: 1rem;
+    color: #666;
+}
+
+.theme-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+/* 메인 컨테이너 스타일 */
+.main-container {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* 사이드바 스타일 */
+.sidebar {
+    transition: transform 0.3s ease-in-out;
+    width: 160px;
+    background-color: white;
+    box-shadow: 2px 0 4px rgba(0,0,0,0.1);
+    padding: 0.8rem;
+    position: fixed;
+    left: 0;
+    top: 70px;
+    bottom: 0;
+}
+
+.nav-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-menu li {
+    margin-bottom: 1rem;
+}
+
+.nav-menu a {
+    display: block;
+    padding: 0.8rem 1rem;
+    color: #333;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.nav-menu a:hover {
+    background-color: #f0f0f0;
+}
+
+.nav-menu li.active a {
+    background-color: #e3f2fd;
+    color: #1976d2;
+}
+
+/* 메인 콘텐츠 영역 */
+.main-content {
+    flex: 1;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+    transition: all 0.3s ease-in-out;
+}
+
+/* 사이드바 닫힘 상태 */
+.sidebar.closed {
+    transform: translateX(-100%);
+}
+
+/* 사이드바 열리고 닫힐 때 컨테이너 이동 */
+.sidebar:not(.closed) ~ .main-container {
+    transform: translateX(80px);
+}
+
+/* 캘린더 스타일 */
+.calendar-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.calendar-header button {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+.calendar-header h2 {
+    margin: 0;
+}
+
+.weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.day {
+    aspect-ratio: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 50%;
+    position: relative;
+}
+
+.day:hover {
+    background-color: #f0f0f0;
+}
+
+.day.has-todo::after {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    width: 4px;
+    height: 4px;
+    background-color: #1976d2;
+    border-radius: 50%;
+}
+
+.day.selected {
+    background-color: #e3f2fd;
+}
+
+.todo-details {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.content-section {
+    width: 100%;
+}
+
+/* 입력란 컨테이너 */
+.container, .container4 {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    text-align: center;
+    margin-bottom: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 960px;
+}
+
+/* 두 개의 테이블을 감싸는 컨테이너 */
+.task-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 1000px;
+    margin: 20px auto;
+    flex-wrap: wrap;
+}
+
+/* 컨테이너의 크기 설정 */
+.container2, .container3 {
+    flex: 1 1 45%;
+    min-width: 45%;
+    max-width: 48%;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* 제목 스타일 */
+h1 {
+    margin-bottom: 40px;
+    font-size: 2em;
+}
+
+/* 입력란 */
+.input-area {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+button {
+    background: yellowgreen;
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+button:hover {
+    background: green;
+}
+
+/* 테이블 공통 스타일 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-size: 0.9em;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #007bff;
+    color: white;
+    font-size: 1em;
+}
+
+/* 버튼 스타일 */
+.finish-btn, .delete-btn {
+    border: none;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.finish-btn {
+    background: yellowgreen;
+}
+
+.finish-btn:hover {
+    background: green;
+}
+
+.delete-btn {
+    background: #dc3545;
+}
+
+.delete-btn:hover {
+    background: #c82333;
+}
+
+/* 체크박스 스타일 */
+.check1 {
+    appearance: none;
+    box-sizing: border-box;
+    background-clip: content-box;
+    padding: 0.25em;
+    width: 20px;
+    height: 20px;
+    border: 1px solid gray;
+    cursor: pointer;
+}
+
+.check1:checked {
+    border-color: #FFFF00;
+    background-color: #FFFF00;
+}
+
+/* 반응형 스타일 */
+@media (max-width: 1024px) {
+    .container, .task-container {
+        width: 90%;
+    }
+}
+
+/* 반응형 조정 */
+@media (max-width: 768px) {
+    .task-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .container2, .container3 {
+        width: 100%;
+        max-width: 100%;
+    }
+    table {
+        font-size: 0.85em;
+    }
+    th, td {
+        padding: 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.4em;
+    }
+    button {
+        font-size: 0.9em;
+        padding: 8px;
+    }
+    table {
+        font-size: 0.8em;
+    }
+}
+
+/* 캘린더 스타일 */
+#calendar-section {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.calendar-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 0 20px;
+}
+
+.calendar-header button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+
+.calendar-header button:hover {
+    background-color: #0056b3;
+}
+
+.calendar-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.calendar-grid {
+    padding: 10px;
+}
+
+.weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+    background-color: #f8f9fa;
+    padding: 10px 0;
+    border-radius: 5px;
+}
+
+.weekdays div {
+    color: #495057;
+}
+
+.days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.day {
+    aspect-ratio: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+    color: #495057;
+    position: relative;
+}
+
+.day:hover {
+    background-color: #f8f9fa;
+    border-color: #adb5bd;
+}
+
+.day.empty {
+    background-color: #f8f9fa;
+    border: none;
+    cursor: default;
+}
+
+.day.has-todo {
+    background-color: #e3f2fd;
+    border-color: #90caf9;
+    font-weight: bold;
+    color: #1976d2;
+}
+
+.day.has-priority {
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+    font-weight: bold;
+    color: #856404;
+}
+
+.day.has-finished {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    font-weight: bold;
+    color: #155724;
+}
+
+/* 조합 스타일 */
+.day.has-todo.has-priority {
+    background: linear-gradient(135deg, #e3f2fd 50%, #fff3cd 50%);
+    border-color: #90caf9;
+}
+
+.day.has-todo.has-finished {
+    background: linear-gradient(135deg, #e3f2fd 50%, #d4edda 50%);
+    border-color: #90caf9;
+}
+
+.day.has-priority.has-finished {
+    background: linear-gradient(135deg, #fff3cd 50%, #d4edda 50%);
+    border-color: #ffeeba;
+}
+
+.day.has-todo.has-priority.has-finished {
+    background: linear-gradient(135deg, 
+        #e3f2fd 33%, 
+        #fff3cd 33%, 
+        #fff3cd 67%, 
+        #d4edda 67%
+    );
+    border-color: #90caf9;
+}
+
+.day.selected {
+    background-color: #007bff;
+    border-color: #0056b3;
+    color: white;
+}
+
+.todo-details {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    border: 1px solid #dee2e6;
+}
+
+.todo-details h3 {
+    margin: 0 0 15px 0;
+    color: #007bff;
+    font-size: 1.2rem;
+}
+
+.todo-details h4 {
+    margin: 15px 0 10px 0;
+    color: #6c757d;
+    font-size: 1rem;
+}
+
+.todo-details ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.todo-details li {
+    padding: 8px 0;
+    border-bottom: 1px solid #dee2e6;
+    color: #495057;
+}
+
+/* 캘린더 반응형 스타일 */
+@media (max-width: 768px) {
+    .calendar-container {
+        padding: 10px;
+    }
+
+    .calendar-header {
+        padding: 0 10px;
+    }
+
+    .calendar-header h2 {
+        font-size: 1.2rem;
+    }
+
+    .day {
+        font-size: 0.8rem;
+    }
+
+    .todo-details {
+        padding: 15px;
+    }
+
+    .todo-details h3 {
+        font-size: 1.1rem;
+    }
+
+    .todo-details h4 {
+        font-size: 0.9rem;
+    }
+}

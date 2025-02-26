@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do Web</title>
+    <link rel="stylesheet" href="./todoweb.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <button class="sidebar-toggle">☰</button>
+            <h1>ToDo-List</h1>
+            <div class="header-right">
+                <span class="current-date"></span>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <aside class="sidebar closed">
+            <nav class="nav-menu">
+                <ul>
+                    <br>
+                    <li class="main"><a href="#">📋 대시보드</a></li>
+                    <li class="calendar"><a href="#">🗓️ 캘린더</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <section id="dashboard-section" class="content-section">
+                <br>
+    
+    <div class="container">
+        <h2>📝 Creating-List 🗓️</h2>
+        <div class="input-area">
+            <input type="text" id="todo-input" placeholder="할 일을 입력하세요...">
+            <button id="add-btn">추가</button>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="task-container">
+    <div class="container2">
+        <h2>📝 Work-List</h2>
+        <table id="todo-table1">
+            <thead>
+                <tr>
+                    <th style="width: 50%;">할 일</th>
+                    <th style="width: 20%;">기한</th>
+                    <th style="width: 10%;">중요</th>
+                    <th style="width: 10%;">완료</th>
+                    <th style="width: 10%;">삭제</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+            <!-- 동적으로 추가될 내용 -->
+            </tbody>
+        </table>
+    </div>
+
+    <div class="container3">
+        <h2>🗓️ Completed-List</h2>
+        <table id="todo-table2">
+            <thead>
+                <tr>
+                    <th style="width: 60%;">할 일</th>
+                    <th style="width: 20%;">기한</th>
+                    <th style="width: 10%;">중요</th>
+                    <th style="width: 10%;">삭제</th>
+                </tr>
+            </thead>
+            <tbody id="tbody2">
+                <!-- 동적으로 추가될 내용 -->
+            </tbody>
+        </table>
+    </div>
+    </div>
+    
+    <br>
+
+    <div class="container4">
+        <h2>📊 List-Statistics</h2>
+
+        <canvas id="myChart"></canvas>
+    </div>
+    </section>
+            <!-- 캘린더 섹션 -->
+            <section id="calendar-section" class="content-section" style="display: none;">
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <button id="prevMonth">&lt;</button>
+                        <h2 id="currentMonth"></h2>
+                        <button id="nextMonth">&gt;</button>
+                    </div>
+                    <div class="calendar-grid">
+                        <div class="weekdays">
+                            <div>일</div>
+                            <div>월</div>
+                            <div>화</div>
+                            <div>수</div>
+                            <div>목</div>
+                            <div>금</div>
+                            <div>토</div>
+                        </div>
+                        <div id="calendar-days" class="days"></div>
+                    </div>
+                    <div id="todo-details" class="todo-details"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="./todoweb.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>
